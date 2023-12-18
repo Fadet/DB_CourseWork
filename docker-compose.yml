@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  envoy_service:
+    build:
+      context: .
+      dockerfile: Dockerfile-envoy
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml

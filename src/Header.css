@@ -1,0 +1,9 @@
+.dropdown-item:active {
+    background-color: rgb(255, 202, 44);
+    color: black;
+}
+
+.dropdown-item:hover {
+    background-color: rgb(255, 202, 44);
+    color: black;
+}
