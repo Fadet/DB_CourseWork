@@ -1,0 +1,12 @@
+@media (width > 767px) {
+    h2 {
+        text-align: left;
+    }
+}
+@media (width <= 767px) {
+    .row {
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+    }
+}
