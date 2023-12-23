@@ -1,13 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Container, Navbar, Nav, NavDropdown, Button, Placeholder} from "react-bootstrap";
 import logo from "./img/logo.svg"
 import {ShoppingCart} from "./ShoppingCart";
 import './Header.css';
+import {CartDataContext} from "./App";
 
 
 export function Header({categoriesInfo}) {
     const [showCart, setShowCart] = useState(false);
+    const [cartData, setCartData] = useContext(CartDataContext);
 
     const handleClose = () => setShowCart(false);
     const handleShow = () => setShowCart(true);
@@ -58,7 +60,7 @@ export function Header({categoriesInfo}) {
                         </>}
                     </Navbar.Collapse>
                     <Button variant="warning" onClick={handleShow} className={"d-none d-lg-flex"}>
-                        Корзина
+                        {'Корзина ' + (cartData.length > 0 ? cartData.length.toString() : '')}
                     </Button>
                 </Container>
             </Navbar>
