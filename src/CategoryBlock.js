@@ -25,8 +25,8 @@ export function CategoryBlock({categoryInfo}) {
     return (
         <>
             <div id={categoryInfo.nameen} style={{scrollMarginTop: "56px"}}></div>
-            <div className={"mb-5  "}>
-                <h2 className={"mb-3"}>
+            <div className={"mb-5"}>
+                <h2 className={"mb-3 ps-3"}>
                     {categoryInfo.nameru}
                 </h2>
                 <Container>

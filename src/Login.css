@@ -1,0 +1,27 @@
+.modal-content {
+    align-items: center;
+    justify-content: center;
+    background-color: lightgoldenrodyellow;
+    border-width: 1px;
+    border-radius: 20px;
+    max-width: max-content;
+}
+
+.modal-dialog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.my_col {
+    width: 400px
+}
+
+@media (width <= 400px) {
+    .my_col {
+        width: calc(100vw - 20px);
+    }
+}
+
+

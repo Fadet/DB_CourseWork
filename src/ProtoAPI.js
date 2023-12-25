@@ -9,7 +9,7 @@ import * as order_grpc_web from './proto/proto/v1/order_grpc_web_pb';
 import {Empty} from "google-protobuf/google/protobuf/empty_pb"
 
 const empty = new Empty();
-const hostname = 'http://localhost:8000';
+const hostname = 'http://localhost:8000'; // Proxy server
 
 export async function getCategories() {
     const client = new category_grpc_web.CategoryPromiseClient(hostname);
@@ -73,5 +73,32 @@ export async function getProduct(id) {
 
     const client = new product_grpc_web.ProductPromiseClient(hostname);
     const response = await client.get(request,{});
+    return response.toObject();
+}
+
+export async function getLoginData(login, password) {
+    const request = new authorization_grpc.LoginRequest();
+    request.setLogin(login);
+    request.setPassword(password);
+
+    const client = new authorization_grpc_web.AuthorizationPromiseClient(hostname);
+    const respose = await client.login(request, {});
+
+    return respose.toObject();
+}
+
+export async function doRegister(login, email, phoneNumber, password) {
+    const userData = new authorization_grpc.RegisterRequest.UserInfo();
+    userData.setLogin(login);
+    userData.setEmail(email);
+    userData.setPassword(password);
+    userData.setPhoneNumber(phoneNumber);
+
+    const request = new authorization_grpc.RegisterRequest();
+    request.setUser(userData);
+
+    const client = new authorization_grpc_web.AuthorizationPromiseClient(hostname);
+    const response = await client.register(request, {});
+
     return response.toObject();
 }

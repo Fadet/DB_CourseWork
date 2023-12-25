@@ -1,18 +1,30 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, {useContext, useState} from 'react';
-import {Container, Navbar, Nav, NavDropdown, Button, Placeholder} from "react-bootstrap";
+import React, {useContext, useEffect, useState} from 'react';
+import {Container, Navbar, Nav, NavDropdown, Button, Placeholder, Image} from "react-bootstrap";
 import logo from "./img/logo.svg"
-import {ShoppingCart} from "./ShoppingCart";
 import './Header.css';
-import {CartDataContext} from "./App";
+import {CartDataContext, ShoppingCartContext} from "./App";
+import {ProfileOverlay} from "./ProfileOverlay";
 
 
 export function Header({categoriesInfo}) {
-    const [showCart, setShowCart] = useState(false);
+    const [showCart, setShowCart] = useContext(ShoppingCartContext);
     const [cartData, setCartData] = useContext(CartDataContext);
 
-    const handleClose = () => setShowCart(false);
-    const handleShow = () => setShowCart(true);
+    const getTotalAmount = () => {
+        let total = 0;
+        for (let i = 0; i < cartData.length; i++) {
+            total += cartData[i].amount;
+        }
+        return total;
+    };
+
+    const [productsAmount, setProductsAmount] = useState(getTotalAmount);
+
+    useEffect(() => {
+        localStorage.setItem("cart_data", JSON.stringify(cartData));
+        setProductsAmount(getTotalAmount());
+    }, [cartData]);
 
     const categories = categoriesInfo.categoriesList;
 
@@ -59,12 +71,12 @@ export function Header({categoriesInfo}) {
                             </Placeholder>
                         </>}
                     </Navbar.Collapse>
-                    <Button variant="warning" onClick={handleShow} className={"d-none d-lg-flex"}>
-                        {'Корзина ' + (cartData.length > 0 ? cartData.length.toString() : '')}
+                    <ProfileOverlay/>
+                    <Button variant="warning" onClick={() => setShowCart(true)} className={"d-none d-lg-flex"}>
+                        {'Корзина ' + (productsAmount > 0 ? productsAmount.toString() : '')}
                     </Button>
                 </Container>
             </Navbar>
-            <ShoppingCart show={showCart} onHide={handleClose}></ShoppingCart>
         </>
     );
 }
