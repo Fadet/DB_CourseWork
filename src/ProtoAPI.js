@@ -102,3 +102,30 @@ export async function doRegister(email, phoneNumber, password) {
 
     return response.toObject();
 }
+
+export async function sendOrder(products) {
+    const data = products.map(product => {
+        const elem = new order_grpc.ProductOrder();
+        elem.setId(product.id);
+        elem.setCount(product.count);
+        return elem;
+    });
+
+    const request = new order_grpc.PlaceRequest();
+    request.setProductsList(data);
+
+    const client = new order_grpc_web.OrderPromiseClient(hostname);
+    const responce = await client.place(request, {});
+
+    return responce.toObject();
+}
+
+export async function getOrderStatus(id) {
+    const request = new order_grpc.OrderStatusRequest();
+    request.setId(id);
+
+    const client = new order_grpc_web.OrderPromiseClient(hostname);
+    const responce = await client.getOrderStatus(request, {});
+
+    return responce.toObject();
+}

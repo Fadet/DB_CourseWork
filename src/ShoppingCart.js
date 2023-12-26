@@ -1,14 +1,17 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useContext, useEffect, useState} from 'react';
 import {Button, Container, Offcanvas} from "react-bootstrap";
-import {CartDataContext, SignInSignUpContext} from "./App";
+import {CartDataContext, SignInSignUpContext, UserOrdersDataContext} from "./App";
 import {ShoppingCartItem} from "./ShoppingCartItem";
-import {useIsAuthenticated} from "react-auth-kit";
+import {useAuthUser, useIsAuthenticated} from "react-auth-kit";
+import {sendOrder} from "./ProtoAPI";
 
 export function ShoppingCart({show, onHide}) {
     const [cartData, setCartData] = useContext(CartDataContext);
     const [showSignInSignUp, setShowSignInSignUp] = useContext(SignInSignUpContext);
+    const [userOrdersData, setUserOrdersData] = useContext(UserOrdersDataContext);
     const isSignIn = useIsAuthenticated();
+    const userData = useAuthUser();
 
     const getTotalAmount = () => {
         let total = 0;
@@ -28,9 +31,36 @@ export function ShoppingCart({show, onHide}) {
 
     const orderHandler = () => {
         if (isSignIn()) {
-            window.alert("Unimplemented");
-        }
-        else {
+            const products = cartData.map(elem => {
+                return {
+                    id: elem.id,
+                    count: elem.amount
+                }
+            });
+
+            sendOrder(products).then(
+                res => {
+                    const index = userOrdersData.findIndex((obj) => {
+                        return obj.id === userData().email;
+                    });
+                    if (index === -1)
+                        setUserOrdersData([...userOrdersData, {
+                            id: userData().email, data: [{
+                                id: res.number, date: res.date,
+                                status: res.status, price: res.sum
+                            }]
+                        }]);
+                    else {
+                        userOrdersData[index].data.push({
+                            id: res.number, date: res.date,
+                            status: res.status, price: res.sum
+                        });
+                        setUserOrdersData(...userOrdersData);
+                    }
+                    window.open(res.paymentLink, '_blank').focus();
+                }
+            );
+        } else {
             setShowSignInSignUp({...showSignInSignUp, signIn: true});
         }
     }
@@ -44,6 +74,10 @@ export function ShoppingCart({show, onHide}) {
         setTotalPrice(getTotalPrice());
     }, [cartData]);
 
+    useEffect(() => {
+        localStorage.setItem("user_orders_data", JSON.stringify(userOrdersData));
+    }, [userOrdersData]);
+
     return (
         <Offcanvas show={show} onHide={onHide} placement={"end"}>
             <Offcanvas.Header closeButton style={{backgroundColor: "#F3F3F7"}}>
@@ -52,7 +86,7 @@ export function ShoppingCart({show, onHide}) {
             <Offcanvas.Body className={"mb-auto pt-0"} style={{backgroundColor: "#F3F3F7"}}>
                 {cartData.length === 0 && <p>Тут будут ваши товары.</p>}
                 {cartData.map((product) =>
-                <ShoppingCartItem key={product.id} product={product}/>)}
+                    <ShoppingCartItem key={product.id} product={product}/>)}
 
             </Offcanvas.Body>
 

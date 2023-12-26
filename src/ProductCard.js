@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Button, Card} from "react-bootstrap";
 import {CartDataContext} from "./App";
 import './ProductCard.css';

@@ -12,12 +12,19 @@ export const ShoppingCartContext = createContext(null);
 
 export const SignInSignUpContext = createContext(null);
 
+export const UserOrdersDataContext = createContext(null);
+
 function App() {
     const [categoriesInfo, setCategoriesInfo] = useState({});
     const [showCart, setShowCart] = useState(false);
     const [showSignInSignUp,setShowSignInSignUp] = useState({signIn:  false, signUp: false});
     const [cartData, setCartData] = useState(() => {
         const saved = localStorage.getItem("cart_data");
+        const initialValue = JSON.parse(saved);
+        return initialValue || [];
+    });
+    const [userOrdersData, setUserOrdersData] = useState(()=>{
+        const saved = localStorage.getItem("user_orders_data");
         const initialValue = JSON.parse(saved);
         return initialValue || [];
     });
@@ -41,7 +48,9 @@ function App() {
                 <ShoppingCartContext.Provider value={[showCart, setShowCart]}>
                     <SignInSignUpContext.Provider value={[showSignInSignUp, setShowSignInSignUp]}>
                         <Header categoriesInfo={categoriesInfo}/>
-                        <ShoppingCart show={showCart} onHide={() => {setShowCart(false);}}></ShoppingCart>
+                        <UserOrdersDataContext.Provider value={[userOrdersData, setUserOrdersData]}>
+                            <ShoppingCart show={showCart} onHide={() => {setShowCart(false);}}></ShoppingCart>
+                        </UserOrdersDataContext.Provider>
                     </SignInSignUpContext.Provider>
                 </ShoppingCartContext.Provider>
                 <Body categoriesInfo={categoriesInfo}/>

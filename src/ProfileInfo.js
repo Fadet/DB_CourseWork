@@ -19,7 +19,7 @@ export function ProfileInfo() {
                 </Card.Header>
                 <CardFooter>
                     <Card.Title>
-                        Телефон: <u>{userData().tel}</u>
+                        Телефон: <u>{userData().phoneNumber}</u>
                     </Card.Title>
                 </CardFooter>
             </Card>

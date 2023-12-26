@@ -24,11 +24,7 @@ export function LoginPage() {
     //                 {
     //                 token: res.token,
     //                 expiresIn: res.lifetime,
-    //                 authState: { // TODO: Влад не доделал инфу
-    //                     name: "Гандон А.А.",
-    //                     email: "eblan@mail.com",
-    //                     tel: "88005553535"
-    //                 }
+    //                 authState: res.user
     //             )) {
     //                 window.location.reload();
     //             }
@@ -139,11 +135,7 @@ export function AuthPage() {
                             {
                                 token: res.token,
                                 expiresIn: res.lifetime,
-                                authState: { // TODO: Влад не доделал инфу
-                                    name: "Гандон А.А.",
-                                    email: "eblan@mail.com",
-                                    tel: "88005553535"
-                                }
+                                authState: res.user
                             }
                         )) {
                             window.location.reload();

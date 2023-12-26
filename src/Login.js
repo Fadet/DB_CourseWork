@@ -16,11 +16,7 @@ export function Login(props) {
     //                 {
     //                 token: res.token,
     //                 expiresIn: res.lifetime,
-    //                 authState: {
-    //                     name: "Гандон А.А.", // TODO: Влад не доделал инфу
-    //                     email: "eblan@mail.com",
-    //                     tel: "88005553535"
-    //                 }
+    //                 authState: res.user
     //             )) {
     //                 window.location.reload();
     //             }
@@ -127,11 +123,7 @@ export function Auth(props) {
                             {
                                 token: res.token,
                                 expiresIn: res.lifetime,
-                                authState: { // TODO: Влад не доделал инфу
-                                    name: "Гандон А.А.",
-                                    email: "eblan@mail.com",
-                                    tel: "88005553535"
-                                }
+                                authState: res.user
                             }
                         )) {
                             window.location.reload();
