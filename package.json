@@ -13,7 +13,7 @@
     "grpc-tools": "^1.12.4",
     "grpc-web": "^1.5.0",
     "react": "^18.2.0",
-    "react-auth-kit": "^3.0.0-alpha.44",
+    "react-auth-kit": "^2.12.7",
     "react-bootstrap": "^2.9.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.0",

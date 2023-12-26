@@ -1,31 +1,18 @@
-import React, {useContext, useRef, useState} from "react";
+import React, {useContext,} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Image,} from "react-bootstrap";
 import './ProfileOverlay.css';
 import account from './img/account.svg';
 import {SignInSignUpContext} from "./App";
-import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
+import {useIsAuthenticated} from "react-auth-kit";
+import {useNavigate} from "react-router-dom";
 
-export function ProfileOverlay() {
-    const target = useRef(null);
-    const [showSignInSignUp, setShowSignInSignUp] = useContext(SignInSignUpContext);
-    const isSignIn = useIsAuthenticated();
-
-    const authHandler = () => {
-        if (isSignIn()) {
-            window.alert("Unimplemented");
-        }
-        else {
-            setShowSignInSignUp({...showSignInSignUp, signIn: true});
-        }
-    }
-
+export function ProfileOverlay({authHandler}) {
     return (
         <div className={"me-3"}>
 
             <Image
                 className={"overlay-img"}
-                ref={target}
                 onClick={authHandler}
                 roundedCircle
                 width={"35px"}

@@ -87,9 +87,9 @@ export async function getLoginData(login, password) {
     return respose.toObject();
 }
 
-export async function doRegister(login, email, phoneNumber, password) {
+export async function doRegister(email, phoneNumber, password) {
     const userData = new authorization_grpc.RegisterRequest.UserInfo();
-    userData.setLogin(login);
+    userData.setLogin("undefined");
     userData.setEmail(email);
     userData.setPassword(password);
     userData.setPhoneNumber(phoneNumber);

@@ -3,22 +3,31 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import AuthProvider from "react-auth-kit";
-import {BrowserRouter} from "react-router-dom";
-import createStore from "react-auth-kit/createStore";
+import {AuthProvider, RequireAuth} from "react-auth-kit";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {AuthPage, LoginPage} from "./LoginPage";
+import {Profile} from "./Profile";
+import {ProfileInfo} from "./ProfileInfo";
+import {Orders} from "./Orders";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const store = createStore({
-    authType: "cookie",
-    authName: "_auth",
-    cookieDomain: window.location.hostname,
-    cookieSecure: window.location.protocol === "http:"
-});
 root.render(
   <React.StrictMode>
-    <AuthProvider store={store}>
+    <AuthProvider authType={"cookie"}
+                  authName={"_auth"}
+                  cookieDomain={window.location.hostname}
+                  cookieSecure={window.location.protocol === "http:"}
+    >
         <BrowserRouter>
-            <App />
+            <Routes>
+                <Route path={"/"} element={<App />}></Route>
+                <Route path={"/login"} element={<LoginPage/>}></Route>
+                <Route path={"/register"} element={<AuthPage/>}></Route>
+                <Route path={"/profile"} element={<RequireAuth loginPath={"/login"}><Profile/></RequireAuth>}>
+                    <Route path={"info"} element={<ProfileInfo/>}></Route>
+                    <Route path={"orders"} element={<Orders/>}></Route>
+                </Route>
+            </Routes>
         </BrowserRouter>
     </AuthProvider>
   </React.StrictMode>

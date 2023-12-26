@@ -7,8 +7,7 @@
  * @public
  */
 // GENERATED CODE -- DO NOT EDIT!
-
-/*eslint-disable*/
+/* eslint-disable */
 // @ts-nocheck
 var jspb = require('google-protobuf');
 var goog = jspb;
@@ -587,7 +586,8 @@ proto.order.v1.OrderStatusResponce.toObject = function(includeInstance, msg) {
     number: jspb.Message.getFieldWithDefault(msg, 1, 0),
     date: jspb.Message.getFieldWithDefault(msg, 2, ""),
     status: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    sum: jspb.Message.getFieldWithDefault(msg, 4, "")
+    sum: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    paymentLink: jspb.Message.getFieldWithDefault(msg, 6, "")
   };
 
   if (includeInstance) {
@@ -639,6 +639,10 @@ proto.order.v1.OrderStatusResponce.deserializeBinaryFromReader = function(msg, r
     case 4:
       var value = /** @type {string} */ (reader.readString());
       msg.setSum(value);
+      break;
+    case 6:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setPaymentLink(value);
       break;
     default:
       reader.skipField();
@@ -694,6 +698,13 @@ proto.order.v1.OrderStatusResponce.serializeBinaryToWriter = function(message, w
   if (f.length > 0) {
     writer.writeString(
       4,
+      f
+    );
+  }
+  f = message.getPaymentLink();
+  if (f.length > 0) {
+    writer.writeString(
+      6,
       f
     );
   }
@@ -769,6 +780,24 @@ proto.order.v1.OrderStatusResponce.prototype.getSum = function() {
  */
 proto.order.v1.OrderStatusResponce.prototype.setSum = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
+};
+
+
+/**
+ * optional string payment_link = 6;
+ * @return {string}
+ */
+proto.order.v1.OrderStatusResponce.prototype.getPaymentLink = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.order.v1.OrderStatusResponce} returns this
+ */
+proto.order.v1.OrderStatusResponce.prototype.setPaymentLink = function(value) {
+  return jspb.Message.setProto3StringField(this, 6, value);
 };
 
 

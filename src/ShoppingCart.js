@@ -3,7 +3,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Button, Container, Offcanvas} from "react-bootstrap";
 import {CartDataContext, SignInSignUpContext} from "./App";
 import {ShoppingCartItem} from "./ShoppingCartItem";
-import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
+import {useIsAuthenticated} from "react-auth-kit";
 
 export function ShoppingCart({show, onHide}) {
     const [cartData, setCartData] = useContext(CartDataContext);

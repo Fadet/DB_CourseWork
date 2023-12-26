@@ -38,7 +38,7 @@ export function ProductCard({product}) {
                             {product.price}
                         </div>
                         <Button onClick={onClickHandler} style={{width: "100px", borderRadius: "20px"}}
-                                variant={"warning"}>Выбрать</Button>
+                                variant={"warning"}>В корзину</Button>
                     </div>
                 </Card.Text>
             </Card.Body>

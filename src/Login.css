@@ -24,4 +24,6 @@
     }
 }
 
-
+.my_a:hover {
+    cursor: pointer;
+}
