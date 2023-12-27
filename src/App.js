@@ -12,19 +12,12 @@ export const ShoppingCartContext = createContext(null);
 
 export const SignInSignUpContext = createContext(null);
 
-export const UserOrdersDataContext = createContext(null);
-
 function App() {
     const [categoriesInfo, setCategoriesInfo] = useState({});
     const [showCart, setShowCart] = useState(false);
-    const [showSignInSignUp,setShowSignInSignUp] = useState({signIn:  false, signUp: false});
+    const [showSignInSignUp, setShowSignInSignUp] = useState({signIn: false, signUp: false});
     const [cartData, setCartData] = useState(() => {
         const saved = localStorage.getItem("cart_data");
-        const initialValue = JSON.parse(saved);
-        return initialValue || [];
-    });
-    const [userOrdersData, setUserOrdersData] = useState(()=>{
-        const saved = localStorage.getItem("user_orders_data");
         const initialValue = JSON.parse(saved);
         return initialValue || [];
     });
@@ -34,11 +27,11 @@ function App() {
             try {
                 const resp = await getCategories();
                 setCategoriesInfo(resp);
-            }
-            catch (err) {
+            } catch (err) {
                 console.error(err);
             }
         }
+
         callback();
     }, [])
 
@@ -48,20 +41,20 @@ function App() {
                 <ShoppingCartContext.Provider value={[showCart, setShowCart]}>
                     <SignInSignUpContext.Provider value={[showSignInSignUp, setShowSignInSignUp]}>
                         <Header categoriesInfo={categoriesInfo}/>
-                        <UserOrdersDataContext.Provider value={[userOrdersData, setUserOrdersData]}>
-                            <ShoppingCart show={showCart} onHide={() => {setShowCart(false);}}></ShoppingCart>
-                        </UserOrdersDataContext.Provider>
+                        <ShoppingCart show={showCart} onHide={() => {
+                            setShowCart(false);
+                        }}></ShoppingCart>
                     </SignInSignUpContext.Provider>
                 </ShoppingCartContext.Provider>
                 <Body categoriesInfo={categoriesInfo}/>
             </CartDataContext.Provider>
             <Login show={showSignInSignUp.signIn}
-                   onHide={()=>setShowSignInSignUp({...showSignInSignUp, signIn: false})}
-                   showauth={()=>setShowSignInSignUp({signIn: false, signUp: true})}
+                   onHide={() => setShowSignInSignUp({...showSignInSignUp, signIn: false})}
+                   showauth={() => setShowSignInSignUp({signIn: false, signUp: true})}
             />
             <Auth show={showSignInSignUp.signUp}
-                  onHide={()=>setShowSignInSignUp({...showSignInSignUp, signUp: false})}
-                  showlogin={()=>setShowSignInSignUp({signIn: true, signUp: false})}
+                  onHide={() => setShowSignInSignUp({...showSignInSignUp, signUp: false})}
+                  showlogin={() => setShowSignInSignUp({signIn: true, signUp: false})}
             />
         </div>
     );

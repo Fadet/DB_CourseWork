@@ -16,39 +16,40 @@ export function LoginPage() {
         }
     });
 
-    // const submitHandler = (e) => {
-    //     e.preventDefault();
-    //     getLoginData(e.target.login_name, e.target.login_password).then(
-    //         (res) => {
-    //             if (signIn(
-    //                 {
-    //                 token: res.token,
-    //                 expiresIn: res.lifetime,
-    //                 authState: res.user
-    //             )) {
-    //                 window.location.reload();
-    //             }
-    //         }
-    //     )
-    // };
-
     const submitHandler = (e) => {
         e.preventDefault();
-        if (signIn(
-            {
-                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.Et9HFtf9R3GEMA0IICOfFMVXY7kkTX1wr4qCyhIf58U",
-                tokenType: "Bearer",
-                expiresIn: 60 * 24 * 30,
-                authState: {
-                    name: "Гандон А.А.",
-                    email: "eblan@mail.com",
-                    tel: "88005553535"
+        getLoginData(e.target.elements.login_email.value, e.target.elements.login_password.value).then(
+            (res) => {
+                if (signIn(
+                    {
+                    token: res.token,
+                    tokenType: "Bearer",
+                    expiresIn: res.lifetime,
+                    authState: res.user}
+                )) {
+                    window.location.reload();
                 }
             }
-        )) {
-            window.location.reload();
-        }
+        )
     };
+
+    // const submitHandler = (e) => {
+    //     e.preventDefault();
+    //     if (signIn(
+    //         {
+    //             token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.Et9HFtf9R3GEMA0IICOfFMVXY7kkTX1wr4qCyhIf58U",
+    //             tokenType: "Bearer",
+    //             expiresIn: 60 * 24 * 30,
+    //             authState: {
+    //                 name: "Гандон А.А.",
+    //                 email: "eblan@mail.com",
+    //                 tel: "88005553535"
+    //             }
+    //         }
+    //     )) {
+    //         window.location.reload();
+    //     }
+    // };
 
 
     return (
@@ -67,7 +68,7 @@ export function LoginPage() {
                                                 <Form.Label className="text-center">
                                                     Логин
                                                 </Form.Label>
-                                                <Form.Control name={"auth_email"} type="email"
+                                                <Form.Control name={"login_email"} type="email"
                                                               placeholder="email@example.com" required/>
                                             </Form.Group>
 
@@ -122,9 +123,9 @@ export function AuthPage() {
     const submitHandler = (e) => {
         e.preventDefault();
         doRegister(
-            e.target.auth_email,
-            e.target.auth_tel,
-            e.target.auth_password
+            e.target.auth_email.value,
+            e.target.auth_tel.value,
+            e.target.auth_password.value
         ).then(
             (res) => {
                 getLoginData(
@@ -134,6 +135,7 @@ export function AuthPage() {
                         if (signIn(
                             {
                                 token: res.token,
+                                tokenType: "Bearer",
                                 expiresIn: res.lifetime,
                                 authState: res.user
                             }

@@ -9,7 +9,7 @@ export function ProfileInfo() {
 
     return (
         <div className={"justify-content-center d-flex align-items-center h-100"}>
-            <Card style={{ width: '18rem' }}>
+            <Card style={{ width: '20rem' }}>
                 <Card.Header className={"bg-warning"}>
                     <Card.Title style={{textAlign: "center"}}>Это вы</Card.Title>
                 </Card.Header>

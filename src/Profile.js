@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useContext, useEffect} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useAuthUser, useSignOut} from "react-auth-kit";
 import {Container, Nav, Navbar, NavLink} from "react-bootstrap";
@@ -48,8 +48,7 @@ export function Profile() {
                 marginBottom: "-30px",
             }}>
             <Container style={{marginTop: "80px", backgroundColor: "white", height: "100vh"}}>
-                <Outlet/>
-
+                    <Outlet/>
             </Container>
             </div>
         </>

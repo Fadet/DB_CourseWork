@@ -8,39 +8,47 @@ import {doRegister, getLoginData} from "./ProtoAPI";
 export function Login(props) {
     const signIn = useSignIn();
 
-    // const submitHandler = (e) => {
-    //     e.preventDefault();
-    //     getLoginData(e.target.login_email, e.target.login_password).then(
-    //         (res) => {
-    //             if (signIn(
-    //                 {
-    //                 token: res.token,
-    //                 expiresIn: res.lifetime,
-    //                 authState: res.user
-    //             )) {
-    //                 window.location.reload();
-    //             }
-    //         }
-    //     )
-    // };
-
     const submitHandler = (e) => {
         e.preventDefault();
-        if (signIn(
-            {
-                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.Et9HFtf9R3GEMA0IICOfFMVXY7kkTX1wr4qCyhIf58U",
-                tokenType: "Bearer",
-                expiresIn: 60 * 24 * 30,
-                authState: {
-                    name: "Гандон А.А.",
-                    email: "eblan@mail.com",
-                    tel: "88005553535"
-                }
-            }
-        )) {
-            window.location.reload();
+        try {
+            getLoginData(e.target.login_email.value,
+                e.target.login_password.value).then(
+                (res) => {
+                    alert(res);
+                    if (signIn(
+                        {
+                            token: res.token,
+                            tokenType: "Bearer",
+                            expiresIn: res.lifetime,
+                            authState: res.user}
+                    )) {
+                        window.location.reload();
+                    }
+                });
         }
+        catch (e) {
+            alert(e);
+        }
+
     };
+
+    // const submitHandler = (e) => {
+    //     e.preventDefault();
+    //     if (signIn(
+    //         {
+    //             token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.Et9HFtf9R3GEMA0IICOfFMVXY7kkTX1wr4qCyhIf58U",
+    //             tokenType: "Bearer",
+    //             expiresIn: 60 * 24 * 30,
+    //             authState: {
+    //                 name: "Гандон А.А.",
+    //                 email: "eblan@mail.com",
+    //                 tel: "88005553535"
+    //             }
+    //         }
+    //     )) {
+    //         window.location.reload();
+    //     }
+    // };
 
     return (
         <div>
@@ -62,17 +70,17 @@ export function Login(props) {
                             <div className="mb-3 mt-md-2">
                                 <div className="mb-3">
                                     <Form onSubmit={submitHandler}>
-                                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                                        <Form.Group className="mb-3" controlId="formBasicEmail_login">
                                             <Form.Label className="text-center">
                                                 Логин
                                             </Form.Label>
-                                            <Form.Control name={"auth_email"} type="email"
+                                            <Form.Control name={"login_email"} type="email"
                                                           placeholder="email@example.com" required/>
                                         </Form.Group>
 
                                         <Form.Group
                                             className="mb-3"
-                                            controlId="formBasicPassword"
+                                            controlId="formBasicPassword_login"
                                         >
                                             <Form.Label>Пароль</Form.Label>
                                             <Form.Control as={"input"} pattern={"^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!#$%&?\"]).*$"}
@@ -110,18 +118,19 @@ export function Auth(props) {
     const submitHandler = (e) => {
         e.preventDefault();
         doRegister(
-            e.target.auth_email,
-            e.target.auth_tel,
-            e.target.auth_password
+            e.target.auth_email.value,
+            e.target.auth_tel.value,
+            e.target.auth_password.value
         ).then(
             (res) => {
                 getLoginData(
-                    e.target.auth_email,
-                    e.target.auth_password).then(
+                    e.target.auth_email.value,
+                    e.target.auth_password.value).then(
                     (res) => {
                         if (signIn(
                             {
                                 token: res.token,
+                                tokenType: "Bearer",
                                 expiresIn: res.lifetime,
                                 authState: res.user
                             }
@@ -154,7 +163,7 @@ export function Auth(props) {
                             <div className="mb-3 mt-md-2">
                                 <div className="mb-3">
                                     <Form onSubmit={submitHandler}>
-                                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                                        <Form.Group className="mb-3" controlId="formBasicEmail_auth">
                                             <Form.Label className="text-center">
                                                 Логин
                                             </Form.Label>
@@ -162,7 +171,7 @@ export function Auth(props) {
                                                           placeholder="email@example.com" required/>
                                         </Form.Group>
 
-                                        <Form.Group className="mb-3" controlId="formBasicTel">
+                                        <Form.Group className="mb-3" controlId="formBasicTel_auth">
                                             <Form.Label className="text-center">
                                                 Номер телефона
                                             </Form.Label>
@@ -172,7 +181,7 @@ export function Auth(props) {
 
                                         <Form.Group
                                             className="mb-3"
-                                            controlId="formBasicPassword"
+                                            controlId="formBasicPassword_auth"
                                         >
                                             <Form.Label>Пароль</Form.Label>
                                             <Form.Control as={"input"} pattern={"^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!#$%&?\"]).*$"} name={"auth_password"} type="password" placeholder="Пароль"

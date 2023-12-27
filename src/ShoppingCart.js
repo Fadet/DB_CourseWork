@@ -1,10 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useContext, useEffect, useState} from 'react';
 import {Button, Container, Offcanvas} from "react-bootstrap";
-import {CartDataContext, SignInSignUpContext, UserOrdersDataContext} from "./App";
+import {CartDataContext, SignInSignUpContext} from "./App";
 import {ShoppingCartItem} from "./ShoppingCartItem";
-import {useAuthUser, useIsAuthenticated} from "react-auth-kit";
+import {useAuthHeader, useAuthUser, useIsAuthenticated} from "react-auth-kit";
 import {sendOrder} from "./ProtoAPI";
+import {UserOrdersDataContext} from "./MainComponent";
 
 export function ShoppingCart({show, onHide}) {
     const [cartData, setCartData] = useContext(CartDataContext);
@@ -12,6 +13,7 @@ export function ShoppingCart({show, onHide}) {
     const [userOrdersData, setUserOrdersData] = useContext(UserOrdersDataContext);
     const isSignIn = useIsAuthenticated();
     const userData = useAuthUser();
+    const headers = useAuthHeader();
 
     const getTotalAmount = () => {
         let total = 0;
@@ -38,7 +40,7 @@ export function ShoppingCart({show, onHide}) {
                 }
             });
 
-            sendOrder(products).then(
+            sendOrder(products, headers()).then(
                 res => {
                     const index = userOrdersData.findIndex((obj) => {
                         return obj.id === userData().email;
@@ -55,11 +57,13 @@ export function ShoppingCart({show, onHide}) {
                             id: res.number, date: res.date,
                             status: res.status, price: res.sum
                         });
-                        setUserOrdersData(...userOrdersData);
+                        setUserOrdersData([...userOrdersData]);
                     }
                     window.open(res.paymentLink, '_blank').focus();
                 }
             );
+
+            setCartData([]);
         } else {
             setShowSignInSignUp({...showSignInSignUp, signIn: true});
         }

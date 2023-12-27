@@ -103,7 +103,7 @@ export async function doRegister(email, phoneNumber, password) {
     return response.toObject();
 }
 
-export async function sendOrder(products) {
+export async function sendOrder(products, header) {
     const data = products.map(product => {
         const elem = new order_grpc.ProductOrder();
         elem.setId(product.id);
@@ -115,7 +115,10 @@ export async function sendOrder(products) {
     request.setProductsList(data);
 
     const client = new order_grpc_web.OrderPromiseClient(hostname);
-    const responce = await client.place(request, {});
+
+    console.log(header);
+
+    const responce = await client.place(request, {"Authorization": header});
 
     return responce.toObject();
 }
